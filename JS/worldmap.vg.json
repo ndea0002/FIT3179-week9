@@ -1,0 +1,37 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 600,
+    "background": "#ffffff",
+    "title": {"text":"Death in various regions", "color": "black"},
+    "projection": {"type": "equirectangular"},
+    "data": {
+        "url": "https://github.com/ndea0002/FIT3179-week9/blob/1b7e4e88afbaca0c0782961f2d3f10a5a773b1c3/JS/ne_110m.json",
+        "format": {"type": "topojson", "feature": "ne_110m"}
+    },
+    "transform": [
+        {
+            "lookup": "properties.name",
+            "from": {
+                "data": {
+                    "url": "https://github.com/ndea0002/FIT3179-week9/blob/1b7e4e88afbaca0c0782961f2d3f10a5a773b1c3/Data/asiacup_wins.csv"
+                },
+                "key": "Country",
+                "fields": ["Wins"]
+            }
+        },
+        {"calculate": "datum.Wins", "as": "Total wins per country"}
+    ],
+    "mark": {"type": "geoshape"},
+    "encoding": {
+        "color": {
+            "field": "Wins",
+            "type": "quantitative",
+            "scale": {"scheme": "reds"}
+        },
+        "tooltip": [
+            {"field": "properties.name", "type": "nominal", "title": "Country"},
+            {"field": "Wins", "type": "quantitative"}
+        ]
+    }
+}
